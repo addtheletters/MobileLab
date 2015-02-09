@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">WhyHello2</string>
+    <string name="hello_world">I\'m afraid that this string is abnormally long, so it might show up
+        strangely. However, I\'m willing to experiment with it and see what happens.
+        Apparently it\'s not stupid, which is good.</string>
+    <string name="button_text">push me</string>
+    <string name="action_settings">Settings</string>
+
+</resources>
