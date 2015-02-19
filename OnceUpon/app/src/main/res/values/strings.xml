@@ -2,11 +2,14 @@
 <resources>
 
     <string name="app_name">OnceUpon</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="hello_world">Event!</string>
+    <string name="feedback_default">~</string>
+    <string name="instructions">On what day did the following occur?</string>
     <string name="action_settings">Settings</string>
     <string name="edit_hint">What date do you think it is?</string>
     <string name="date_question">What day do you think it is?</string>
     <string name="time_question">What time do you think it is?</string>
+    <string name="btn_submit_text">Submit</string>
 
 
 

@@ -1,0 +1,107 @@
+{
+    "historyID":1,
+    "events":[
+        {
+            "name":"The banana is invented.",
+            "detail":"Bananas are a widely consumed fruit grown mainly in tropical latitudes. In recent years the banana has come under fire from workers who claim that banana plantations represent the risks of capitalist greed.",
+            "date":{
+                "year":1990,
+                "month":1,
+                "day":1
+            }
+        },
+
+        {
+            "name":"Canada has its 100th anniversary.",
+            "detail":"... sort of. The Constitution Act, or British North America Act, defined most of the operation of the government. Everyone likes Canada, unless it's Hate Canada month.",
+            "date":{
+                "year":1967,
+                "month":7,
+                "day":1
+            }
+        },
+
+        {
+            "name":"Niels Bohr makes everyone jealous.",
+            "detail":"There are little round things everywhere and they stick together sometimes to make bigger things.",
+            "date":{
+                "year":1913,
+                "month":10,
+                "day":21
+            }
+        },
+
+        {
+            "name":"An Archduke dies.",
+            "detail":"Because of one prince and a bunch of almost-incompetent revolutionaries, the world is set on fire.",
+            "date":{
+                "year":1914,
+                "month":6,
+                "day":28
+            }
+        },
+
+        {
+            "name":"Poland does not have fun.",
+            "detail":"This could be any day in the 20th century, really, but this day in particular was bad.",
+            "date":{
+                "year":1939,
+                "month":9,
+                "day":1
+            }
+        },
+
+        {
+            "name":"A sunbeam tiger pokes a sleeping giant.",
+            "detail":"Not really sleeping, though. That's just what they wanted everyone to think. The day lives on in infamy.",
+            "date":{
+                "year":1941,
+                "month":12,
+                "day":7
+            }
+        },
+
+        {
+            "name":"A fungus becomes a lifesaver.",
+            "detail":"Personally, I'm allergic to penicillin. Good for everyone else, though.",
+            "date":{
+                "year":1928,
+                "month":9,
+                "day":28
+            }
+        },
+
+        {
+            "name":"The Atari 2600 is released in North America.",
+            "detail":"A game console that some say defined a generation. A different generation from the other console in this database. I wasn't there, I don't know.",
+            "date":{
+                "year":1977,
+                "month":9,
+                "day":11
+            }
+        },
+
+        {
+            "name":"Nintendo makes the Famicom happen in Japan.",
+            "detail":"A game console that some say defined a generation. A different generation from the other console in this database. I wasn't there, I don't know.",
+            "date":{
+                "year":1983,
+                "month":7,
+                "day":15
+            }
+        },
+
+        {
+            "name":"The first nuclear power plant comes online.",
+            "detail":"Nuclear power lights up homes in Arco, Idaho. It's efficient! It's safe! It makes bucketloads of power! Is that an extra arm you're growing?",
+            "date":{
+                "year":1951,
+                "month":12,
+                "day":20
+            }
+        }
+
+
+
+    ]
+}
