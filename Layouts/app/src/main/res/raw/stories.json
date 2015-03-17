@@ -1,0 +1,47 @@
+{
+    "stories":[
+        {
+            "title":"South of France",
+            "pages":[
+                {
+                    "index":1,
+                    "content":"you know\n there's this village just to the south of france"
+                },
+                {
+                    "index":2,
+                    "content":"where the sun shines and the grass grows"
+                }
+            ]
+        },
+
+        {
+            "title":"North of Ibiza",
+            "pages":[
+                {
+                    "index":1,
+                    "content":"you know\n there's this village just to the north of ibiza"
+                },
+                {
+                    "index":2,
+                    "content":"where the birds sing and the wind blows"
+                }
+            ]
+        },
+
+        {
+            "title":"East of Germany",
+            "pages":[
+                {
+                    "index":1,
+                    "content":"you know\n there's this village just to the east of germany"
+                },
+                {
+                    "index":2,
+                    "content":"where the ground trembles and eagles soar"
+                }
+            ]
+        }
+
+
+    ]
+}
