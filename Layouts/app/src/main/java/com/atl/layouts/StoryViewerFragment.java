@@ -23,7 +23,8 @@ import org.json.JSONObject;
  */
 public class StoryViewerFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String STORY_DATA = "";
+    private static final String STORY_DATA = "storydata";
+    private static final String STORY_INDEX = "storyindex";
 
     private JSONObject storyData;
 
@@ -38,10 +39,11 @@ public class StoryViewerFragment extends Fragment {
      * @return A new instance of fragment StoryViewerFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static StoryViewerFragment newInstance(JSONObject storyData) {
+    public static StoryViewerFragment newInstance(JSONObject storyData, int storyIndex) {
         StoryViewerFragment fragment = new StoryViewerFragment();
         Bundle args = new Bundle();
         args.putString(STORY_DATA, storyData.toString());
+        args.putInt(STORY_INDEX, storyIndex);
         fragment.setArguments(args);
         return fragment;
     }
@@ -100,6 +102,8 @@ public class StoryViewerFragment extends Fragment {
             throw new ClassCastException(activity.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+        ((MainActivity) activity).onSectionAttached(
+                getArguments().getInt(STORY_INDEX));
     }
 
     @Override

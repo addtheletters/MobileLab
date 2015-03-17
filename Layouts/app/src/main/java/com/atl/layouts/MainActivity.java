@@ -80,30 +80,18 @@ public class MainActivity extends ActionBarActivity
             story = new JSONObject();
         }
         fragmentManager.beginTransaction()
-                .replace(R.id.container, StoryViewerFragment.newInstance(story))
+                .replace(R.id.container, StoryViewerFragment.newInstance(story, position))
                 .commit();
     }
 
     public void onSectionAttached(int number) {
         try{
             mTitle = getStoryJSON(number).getString("title");
-            System.out.println("ADKHFLJDAFHLDAJFLDHFK");
+            //System.out.println("ADKHFLJDAFHLDAJFLDHFK");
         }catch(JSONException e){
             System.err.println("onSectionAttach, json obj get failed");
             mTitle = "Unknown Title";
         }
-        /*
-        switch (number) {
-            case 1:
-                mTitle = getString(R.string.title_section1);
-                break;
-            case 2:
-                mTitle = getString(R.string.title_section2);
-                break;
-            case 3:
-                mTitle = getString(R.string.title_section3);
-                break;
-        }*/
     }
 
     public void restoreActionBar() {
@@ -114,14 +102,12 @@ public class MainActivity extends ActionBarActivity
     }
 
     public JSONObject getStoryJSON(int section) throws JSONException{
-        System.out.println("they say it is null:" + allStoryData);
+        //System.out.println("they say it is null:" + allStoryData);
         if(allStoryData == null){
             return new JSONObject();
         }
         return allStoryData.getJSONArray("stories").getJSONObject(section);
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -150,6 +136,7 @@ public class MainActivity extends ActionBarActivity
 
         return super.onOptionsItemSelected(item);
     }
+
 
     public void onFragmentInteraction(Uri uri){
         return;

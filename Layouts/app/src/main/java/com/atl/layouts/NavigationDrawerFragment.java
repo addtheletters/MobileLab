@@ -95,9 +95,9 @@ public class NavigationDrawerFragment extends Fragment {
 
 
     public String[] getStoryTitles() throws JSONException{
-        String titles[] = new String[frag_storyData.getJSONArray("Stories").length()];
+        String titles[] = new String[frag_storyData.getJSONArray("stories").length()];
         for(int i = 0; i < titles.length; i++){
-            titles[i] = frag_storyData.getJSONArray("Stories").getJSONObject(i).getString("title");
+            titles[i] = frag_storyData.getJSONArray("stories").getJSONObject(i).getString("title");
         }
         return titles;
     }
