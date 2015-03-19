@@ -1,14 +1,17 @@
 package com.atl.layouts;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -23,14 +26,25 @@ import org.json.JSONObject;
  */
 public class StoryViewerFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String STORY_DATA = "storydata";
-    private static final String STORY_INDEX = "storyindex";
+
+    private static final String STORY_DATA = "storyData";
+    private static final String STORY_INDEX = "storyIndex";
+
+    private static final String PREF_KEY = "pagenum";
+
+    public String prefs_name = "storyPagePrefs_";
+    public SharedPreferences pagePrefs;
 
     private JSONObject storyData;
 
     private OnFragmentInteractionListener mListener;
 
     private TextView textView;
+    private Button lastPageBtn;
+    private Button nextPageBtn;
+
+    private int currentPage;
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -58,8 +72,25 @@ public class StoryViewerFragment extends Fragment {
         if (getArguments() != null) {
             try {
                 storyData = new JSONObject(getArguments().getString(STORY_DATA));
+                System.out.println(storyData);
+                prefs_name = prefs_name + storyData.get("id");
+                pagePrefs = getActivity().getSharedPreferences(prefs_name, 0);
+
+                currentPage = pagePrefs.getInt(PREF_KEY, 0);
+
+                try {
+                    JSONArray pages = storyData.getJSONArray("pages");
+                    if (currentPage < 1 || currentPage > pages.length()) {
+                        currentPage = 1;
+                    }
+                }
+                catch(JSONException e){
+                    currentPage = 1;
+                    System.out.println("failure : onCreateView page parse " + e);
+                }
+
             } catch (JSONException e) {
-                System.out.println("Failed to interpret json in StoryViewerFragment creation");
+                System.out.println("Failed to interpret json in StoryViewerFragment creation; " + e);
             }
         }
     }
@@ -74,13 +105,14 @@ public class StoryViewerFragment extends Fragment {
 
         // Inflate the layout for this fragment
         textView = (TextView)v.findViewById(R.id.text_story_viewer);
-        System.out.println("TEXTVIEW STATUS: " + textView);
-        try {
-            textView.setText(getPageText(1));
-        }
-        catch(JSONException e){
-            textView.setText("Page unavailable.");
-        }
+        //System.out.println("TEXTVIEW STATUS: " + textView);
+
+        lastPageBtn = (Button) v.findViewById(R.id.btn_last_page);
+        lastPageBtn.setOnClickListener(new LastPageListener());
+        nextPageBtn = (Button) v.findViewById(R.id.btn_next_page);
+        nextPageBtn.setOnClickListener(new NextPageListener());
+
+        changePageTo(currentPage);
 
         return v;
     }
@@ -112,6 +144,41 @@ public class StoryViewerFragment extends Fragment {
         mListener = null;
     }
 
+    public boolean changePageTo(int pageNum){
+        System.out.println("Changing page to " + pageNum);
+
+        try {
+            JSONArray pages = storyData.getJSONArray("pages");
+            if (pageNum < 1 || pageNum > pages.length()) {
+                return false;
+            }
+            if (lastPageBtn.isEnabled()){
+                if(pageNum == 1){
+                    lastPageBtn.setEnabled(false);
+                }
+            }
+            else{
+                lastPageBtn.setEnabled(true);
+            }
+            if (nextPageBtn.isEnabled()){
+                if(pageNum == pages.length()){
+                    nextPageBtn.setEnabled(false);
+                }
+            }
+            else{
+                nextPageBtn.setEnabled(true);
+            }
+            textView.setText(getPageText(pageNum));
+            currentPage = pageNum;
+            pagePrefs.edit().putInt(PREF_KEY, pageNum).commit();
+            return true;
+        }
+        catch(JSONException e){
+            System.out.println("error changing page " + e);
+            return false;
+        }
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -126,5 +193,20 @@ public class StoryViewerFragment extends Fragment {
         // TODO: Update argument type and name
         public void onFragmentInteraction(Uri uri);
     }
+
+    public class NextPageListener implements View.OnClickListener{
+        @Override
+        public void onClick(View v) {
+            changePageTo(currentPage + 1);
+        }
+    }
+
+    public class LastPageListener implements View.OnClickListener{
+        @Override
+        public void onClick(View v) {
+            changePageTo(currentPage - 1);
+        }
+    }
+
 
 }

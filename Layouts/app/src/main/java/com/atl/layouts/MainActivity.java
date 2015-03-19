@@ -77,6 +77,7 @@ public class MainActivity extends ActionBarActivity
             story = getStoryJSON(position);
         }
         catch(JSONException e){
+            System.out.println("Failed to get json for story at " + position + "... " + e);
             story = new JSONObject();
         }
         fragmentManager.beginTransaction()
@@ -89,7 +90,7 @@ public class MainActivity extends ActionBarActivity
             mTitle = getStoryJSON(number).getString("title");
             //System.out.println("ADKHFLJDAFHLDAJFLDHFK");
         }catch(JSONException e){
-            System.err.println("onSectionAttach, json obj get failed");
+            System.out.println("onSectionAttach, json obj get failed " + e);
             mTitle = "Unknown Title";
         }
     }
@@ -104,6 +105,7 @@ public class MainActivity extends ActionBarActivity
     public JSONObject getStoryJSON(int section) throws JSONException{
         //System.out.println("they say it is null:" + allStoryData);
         if(allStoryData == null){
+            System.out.println("All story data is null. Blank object returned by getStoryJSON.");
             return new JSONObject();
         }
         return allStoryData.getJSONArray("stories").getJSONObject(section);

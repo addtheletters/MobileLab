@@ -4,23 +4,45 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal">
 
-        <Button
-            android:id="@+id/btn_last_page"
-            android:layout_width="40dp"
+        <LinearLayout
+            android:id="@+id/navbuttons"
+            android:layout_width="fill_parent"
             android:layout_height="40dp"
-            />
+            android:orientation="horizontal"
+            android:weightSum="5">
 
-        <Button
-            android:id="@+id/btn_next_page"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_toRightOf="@id/btn_last_page"
-            />
+            <Button
+                android:id="@+id/btn_last_page"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="2"
+                android:text="@string/last_page"
+                />
+
+            <Button
+                android:id="@+id/btn_goto_page"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:text="@string/goto_page"
+                />
+
+            <Button
+                android:id="@+id/btn_next_page"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="2"
+                android:text="@string/next_page"
+                />
+
+        </LinearLayout>
+
 
         <TextView android:id="@+id/text_story_viewer" android:layout_width="match_parent" android:layout_height="fill_parent"
-            android:text="@string/hello_blank_fragment" android:scrollbars="vertical" android:layout_below="@id/btn_last_page"/>
+            android:text="@string/hello_blank_fragment" android:scrollbars="vertical" android:layout_below="@id/navbuttons"/>
 
 
     </RelativeLayout>

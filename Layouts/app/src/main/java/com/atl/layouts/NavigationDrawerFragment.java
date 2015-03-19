@@ -76,7 +76,7 @@ public class NavigationDrawerFragment extends Fragment {
             frag_storyData = new JSONObject(RawResourceUtil.loadRawResource(this.getActivity(), R.raw.stories));
         }
         catch(Exception e){
-            System.err.println("failed to initialize json, " + e);
+            System.out.println("failed to initialize json, " + e);
         }
 
         // Read in the flag indicating whether or not the user has demonstrated awareness of the
