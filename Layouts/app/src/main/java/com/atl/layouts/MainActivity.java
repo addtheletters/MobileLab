@@ -40,15 +40,21 @@ public class MainActivity extends ActionBarActivity
      */
     private CharSequence mTitle;
 
-    private JSONObject allStoryData;
+    public JSONObject allStoryData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        System.out.println("oncreate called");
+
         setContentView(R.layout.activity_main);
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
+
+        //allStoryData = mNavigationDrawerFragment.frag_storyData; // fragment loads it
+
         mTitle = getTitle();
 
         // Set up the drawer.
@@ -56,7 +62,6 @@ public class MainActivity extends ActionBarActivity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
-        allStoryData = mNavigationDrawerFragment.frag_storyData; // fragment loads it
 
         System.out.println("allStoryData is " + allStoryData);
 
@@ -68,6 +73,9 @@ public class MainActivity extends ActionBarActivity
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {
+
+        System.out.println("nav drawer selected");
+
         System.out.println("position is " + position);
 
         // update the main content by replacing fragments

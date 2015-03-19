@@ -1,12 +1,40 @@
 <html>
 <head>
 	<title>Story Paginator</title>
-	<script src="ScriptPaginator.js"></script>
+	<style type="text/css">
+		textarea {
+			min-height: 50%;
+			min-width:50%;
+		}
+
+	</style>
+	<script src="StoryPaginator.js"></script>
 </head>
 <body>
-	<p>--- to force pagebreaks</p>
-	<textarea>Enter story!</textarea>
-	<button>Paginate</button>
-	<b>
+	<span>Title: </span><input type="text" id="titlebox"></input>
+	<br>
+	<span>Divider: </span><input type="text" id="dividerbox"></input>
+	<br>
+	<textarea id="storyarea">Enter story!</textarea>
+	<br>
+	<button onclick="paginate()">Paginate</button>
+	<hr>
+	<textarea id="sandwich">~out~</textarea>
+
+	
+	<script type="text/javascript"> 
+		function paginate(){
+
+			var title = document.getElementById("titlebox").value;
+			var text = document.getElementById("storyarea").value;
+			var divider = document.getElementById("dividerbox").value;
+			var outbox = document.getElementById("sandwich");
+
+			out = simpleStoryToJSON(title, text, divider);
+			console.log(out);
+			outbox.value = JSON.stringify(out);
+
+		}
+	</script>
 </body>
 </html>

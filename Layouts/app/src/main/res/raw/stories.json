@@ -1,33 +1,121 @@
 {
     "stories":[
         {
-            "title":"South of France",
-            "id":1,
-            "pages":[
-                {
-                    "index":1,
-                    "content":"you know\n there's this village just to the south of france"
-                },
-                {
-                    "index":2,
-                    "content":"where the sun shines and the grass grows"
-                }
-            ]
+           "title":"South of France",
+           "id":1,
+           "pages":[
+              {
+                 "index":1,
+                 "content":"you know\nthere's a small country in europe\nsouth of france\nthat not many have heard of before\n"
+              },
+              {
+                 "index":2,
+                 "content":"they say that if you go there\ncross a river\ntraverse a fjord\nyou can come across a castle\nthis castle is made of solid gold\nand inside this castle\nis a king\n"
+              },
+              {
+                 "index":3,
+                 "content":"there are no servants\nor attendants\nor dukes\nor wizards\njust this one king in his castle of gold\nand if you talk to him\nhe will tell you his story\n"
+              },
+              {
+                 "index":4,
+                 "content":"I don't know\nthe full story\nI've never been there\n"
+              },
+              {
+                 "index":5,
+                 "content":"the issue is\nthe castle of gold\nis only a rumor\nand by discovering it\nyou are destroying the rumor\n"
+              },
+              {
+                 "index":6,
+                 "content":"the key to learning the secret of the king\nis not to journey to some small country south of france\nbut to figure out why the castle of gold is there in the first place\nand contact the king without visiting the king\n"
+              },
+              {
+                 "index":7,
+                 "content":"then you can rob him and melt his castle down\nbut that might also remove some of the value\n"
+              },
+              {
+                 "index":8,
+                 "content":"I still don't have a castle of gold\nyet the king is there\nalone in his castle of gold\njust south of france\n"
+              },
+              {
+                 "index":9,
+                 "content":"and the question is\nif he has no servants\nno attendants\nno men working his fields\nwhat is he the king of?\n"
+              },
+              {
+                 "index":10,
+                 "content":"is he the king of the castle?\nof the fjord?\nof the river?\n"
+              },
+              {
+                 "index":11,
+                 "content":"some may say\nthat he's the king of nothing at all\nexcept for your imagination"
+              }
+           ]
         },
 
         {
-            "title":"North of Ibiza",
-            "id":2,
-            "pages":[
-                {
-                    "index":1,
-                    "content":"you know\n there's this village just to the north of ibiza"
-                },
-                {
-                    "index":2,
-                    "content":"where the birds sing and the wind blows"
-                }
-            ]
+           "title":"North of Ibiza",
+           "id":2,
+           "pages":[
+              {
+                 "index":1,
+                 "content":"you know\nthere's a small town\nin europe\nto the north of ibiza\nnot many people know of it"
+              },
+              {
+                 "index":2,
+                 "content":"I know theres at least a small town in Europe\nand to get there\nyou have to cross a sea\nthen a mountain"
+              },
+              {
+                 "index":3,
+                 "content":"and when you get there\nyou'll find that there's almost nothing there\nin the town\nthe town is all but deserted"
+              },
+              {
+                 "index":4,
+                 "content":"except for this one man\nwho lives in the town, still\nalone\nno one knows his name\nor why he is there"
+              },
+              {
+                 "index":5,
+                 "content":"he looks old\nbut this legend has existed for centuries\nso nobody knows for sure"
+              },
+              {
+                 "index":6,
+                 "content":"it's the day where people discover things\nthings like places in europe that have been forgotten\nlike where one person lives\nmysteriously"
+              },
+              {
+                 "index":7,
+                 "content":"they say that if you camp in that small town\nnorth of ibiza\nat night\nyou can hear the whispers of those who used to live there\ntrapped in the wind\nbecause the wind never blows in the same direction through that town just north of ibiza\nno"
+              },
+              {
+                 "index":8,
+                 "content":"because those people there\noff the shore of the mediterranean\nwho have long lived in fear of the gods\nthey discovered an ancient technique\nto conquer the wind\nand so the wind in that town does not ever blow in the same direction\nit blows in the direction that the people there will it to blow"
+              },
+              {
+                 "index":9,
+                 "content":"and so that one man of the town who remains\nhe keeps the voices of the dead\ntrapped in the wind\nthose voices will be there forever\nin that town just north of ibiza"
+              },
+              {
+                 "index":10,
+                 "content":"this is a legend which has persisted for centuries\nsome say that the man is not human\nthat the people of this town never truly learned to control the wind\nand that they were merely his servants the whole time\nunknowingly"
+              },
+              {
+                 "index":11,
+                 "content":"many have ventured to this town\nseeking adventure\nlooking for answers\nand all have returned"
+              },
+              {
+                 "index":12,
+                 "content":"but some say that when they do return\nthere's something that is lost\nleft behind\nin the winds of that small town to the north of ibiza"
+              },
+              {
+                 "index":13,
+                 "content":"others claim\nthat something is not lost\nafter hearing the winds of this small town north of ibiza\nrather\nsomething is gained"
+              },
+              {
+                 "index":14,
+                 "content":"perhaps they want to believe\nthat by visiting this town\nthey've gained the power of the people\nthe power to feel the wind\nand control the wind"
+              },
+              {
+                 "index":15,
+                 "content":"but perhaps what they've really done\nis become the wind\njust another soul\ntrapped\nin the winds of that town to the north of ibiza."
+              }
+           ]
         },
 
         {
