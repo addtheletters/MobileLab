@@ -6,5 +6,6 @@
     <color name="drawer_background">#DAC8A3</color>
     <color name="general_background">#F8F4ED</color>
     <color name="action_bar_background">#B59147</color>
+    <color name="line_starter">#E0D1B2</color>
 
 </resources>

@@ -46,7 +46,7 @@
               },
               {
                  "index":11,
-                 "content":"some may say\nthat he's the king of nothing at all\nexcept for your imagination"
+                 "content":"some may say\nthat he's the king of nothing at all\nexcept for your imagination."
               }
            ]
         },
@@ -124,11 +124,11 @@
            "pages":[
               {
                  "index":1,
-                 "content":"on our journey\nwe stopped\nat a little village in europe\njust a bit east of Germany"
+                 "content":"on our trip\nwe stopped\nat a little village in europe\njust a bit east of Germany"
               },
               {
                  "index":2,
-                 "content":"a village in the mountains\nthere's a legend about these mountains"
+                 "content":"at a village in the mountains\nthere's a legend about these mountains"
               },
               {
                  "index":3,
@@ -232,11 +232,10 @@
               },
               {
                  "index":28,
-                 "content":"this is the story of the little village in the shadow of the mountain a bit to the east of germany\nwhich is a village no more"
+                 "content":"this is the story of the little village in the shadow of the mountain a bit to the east of germany\nwhich is a village no more."
               }
            ]
         }
-
 
     ]
 }

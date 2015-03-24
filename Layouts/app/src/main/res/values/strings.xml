@@ -17,6 +17,7 @@
     <string name="last_page">&#8592;</string>
     <string name="next_page">&#8594;</string>
     <string name="goto_page">&#8853;</string>
+    <string name="goto_dialog_title">Go To Page</string>
 
 </resources>
 

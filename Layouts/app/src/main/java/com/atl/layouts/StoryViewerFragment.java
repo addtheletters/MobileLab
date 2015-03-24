@@ -1,10 +1,19 @@
 package com.atl.layouts;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.method.ScrollingMovementMethod;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,17 +24,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link StoryViewerFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link StoryViewerFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class StoryViewerFragment extends Fragment {
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
     private static final String STORY_DATA = "storyData";
     private static final String STORY_INDEX = "storyIndex";
@@ -42,17 +45,10 @@ public class StoryViewerFragment extends Fragment {
     private TextView textView;
     private Button lastPageBtn;
     private Button nextPageBtn;
+    private Button goToPageBtn;
 
     private int currentPage;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param storyData JSON object representing the story.
-     * @return A new instance of fragment StoryViewerFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static StoryViewerFragment newInstance(JSONObject storyData, int storyIndex) {
         StoryViewerFragment fragment = new StoryViewerFragment();
         Bundle args = new Bundle();
@@ -66,6 +62,16 @@ public class StoryViewerFragment extends Fragment {
         // Required empty public constructor
     }
 
+    public Spannable formatLine(String rawLine){
+        return new SpannableString(rawLine + System.getProperty("line.separator"));
+    }
+
+    public Spannable getLineStarter(){
+        Spannable lStart = new SpannableString("| ");
+        lStart.setSpan(new ForegroundColorSpan(R.color.line_starter), 0, lStart.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return lStart;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +83,6 @@ public class StoryViewerFragment extends Fragment {
                 pagePrefs = getActivity().getSharedPreferences(prefs_name, 0);
 
                 currentPage = pagePrefs.getInt(PREF_KEY, 0);
-
                 try {
                     JSONArray pages = storyData.getJSONArray("pages");
                     if (currentPage < 1 || currentPage > pages.length()) {
@@ -94,8 +99,13 @@ public class StoryViewerFragment extends Fragment {
             }
         }
     }
-    public String getPageText(int page) throws JSONException{
-        return storyData.getJSONArray("pages").getJSONObject(page - 1).getString("content");
+    public String getPageText(int page, JSONArray pages) throws JSONException{
+        if(pages != null){
+            return pages.getJSONObject(page - 1).getString("content");
+        }
+        else {
+            return storyData.getJSONArray("pages").getJSONObject(page - 1).getString("content");
+        }
     }
 
     @Override
@@ -105,12 +115,19 @@ public class StoryViewerFragment extends Fragment {
 
         // Inflate the layout for this fragment
         textView = (TextView)v.findViewById(R.id.text_story_viewer);
+        textView.setMovementMethod(new ScrollingMovementMethod());
         //System.out.println("TEXTVIEW STATUS: " + textView);
 
         lastPageBtn = (Button) v.findViewById(R.id.btn_last_page);
         lastPageBtn.setOnClickListener(new LastPageListener());
+        lastPageBtn.setOnLongClickListener(new GoToStartListener());
         nextPageBtn = (Button) v.findViewById(R.id.btn_next_page);
         nextPageBtn.setOnClickListener(new NextPageListener());
+        nextPageBtn.setOnLongClickListener(new GoToEndListener());
+
+        goToPageBtn = (Button) v.findViewById(R.id.btn_goto_page);
+        goToPageBtn.setOnClickListener(new GoToPageListener());
+
 
         changePageTo(currentPage);
 
@@ -168,7 +185,8 @@ public class StoryViewerFragment extends Fragment {
             else{
                 nextPageBtn.setEnabled(true);
             }
-            textView.setText(getPageText(pageNum));
+            goToPageBtn.setText(pages.getJSONObject(pageNum-1).getString("index"));
+            setPageText(getPageText(pageNum, pages));
             currentPage = pageNum;
             pagePrefs.edit().putInt(PREF_KEY, pageNum).commit();
             return true;
@@ -177,6 +195,17 @@ public class StoryViewerFragment extends Fragment {
             System.out.println("error changing page " + e);
             return false;
         }
+    }
+
+    public void setPageText( String pageText ){
+        textView.scrollTo(0, 0);
+        textView.setText("");
+        String[] lines = pageText.split(System.getProperty("line.separator"));
+        for(String line : lines){
+            textView.append(getLineStarter());
+            textView.append(formatLine(line));
+        }
+        //textView.setText(pageText);
     }
 
     /**
@@ -205,6 +234,37 @@ public class StoryViewerFragment extends Fragment {
         @Override
         public void onClick(View v) {
             changePageTo(currentPage - 1);
+        }
+    }
+
+    public class GoToPageListener implements View.OnClickListener{
+        public void onClick(View v){
+            // TODO show dialogue to switch page
+            DialogFragment goToDialog = new PageSelectDialogFragment();
+            goToDialog.show(getActivity().getSupportFragmentManager(), "PageSelectDialogFragment");
+        }
+    }
+
+    public class GoToStartListener implements View.OnLongClickListener{
+        public boolean onLongClick(View v){
+            // TODO ask if sure wants to return to start of story
+            // then
+            changePageTo(1);
+            return true;
+        }
+    }
+
+    public class GoToEndListener implements View.OnLongClickListener{
+        public boolean onLongClick(View v){
+            // TODO ask if sure wants to go to end of story
+            // then
+            try {
+                changePageTo(storyData.getJSONArray("pages").length());
+            }
+            catch(JSONException e){
+                System.out.println("failure to change to end page, " + e);
+            }
+            return true;
         }
     }
 

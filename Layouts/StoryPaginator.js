@@ -58,6 +58,14 @@ function simpleStoryToJSON(storyTitle, storyContents, pageDivider){
 	jsonthing.pages = [];
 	divided = storyContents.split(pageDivider);
 	for(var i = 0; i < divided.length; i++){
+		//divided[i] = divided[i].replace(/^/gm, "| ").trim();
+		/*if(divided[i][divided[i].length-1] === "|"){
+			divided[i] = divided[i].slice(0, divided[i].length-1);
+		}
+		*/
+		if(divided[i][divided[i].length-1] === "\n"){
+			divided[i] = divided[i].slice(0, divided[i].length-1);
+		}
 		jsonthing.pages.push(page(i+1, divided[i].trim()));
 	}
 	return jsonthing;
