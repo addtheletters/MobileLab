@@ -161,6 +161,20 @@ public class StoryViewerFragment extends Fragment {
         mListener = null;
     }
 
+    public boolean pageNumberValid(int pageNum){
+        System.out.println("Validating page " + pageNum);
+        try {
+            JSONArray pages = storyData.getJSONArray("pages");
+            if (pageNum < 1 || pageNum > pages.length()) {
+                return false;
+            }
+            return true;
+        }
+        catch(JSONException e){
+            return false;
+        }
+    }
+
     public boolean changePageTo(int pageNum){
         System.out.println("Changing page to " + pageNum);
 
@@ -178,6 +192,8 @@ public class StoryViewerFragment extends Fragment {
                 lastPageBtn.setEnabled(true);
             }
             if (nextPageBtn.isEnabled()){
+                System.out.println("pn" + pageNum + " len" + pages.length());
+                System.out.println("pn" + pageNum + " len" + pages.length());
                 if(pageNum == pages.length()){
                     nextPageBtn.setEnabled(false);
                 }

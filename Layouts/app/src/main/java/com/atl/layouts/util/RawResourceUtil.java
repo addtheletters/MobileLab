@@ -28,4 +28,5 @@ public class RawResourceUtil {
 
         return writer.toString();
     }
+
 }

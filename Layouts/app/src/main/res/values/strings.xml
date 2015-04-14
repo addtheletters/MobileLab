@@ -18,6 +18,8 @@
     <string name="next_page">&#8594;</string>
     <string name="goto_page">&#8853;</string>
     <string name="goto_dialog_title">Go To Page</string>
+    <string name="goto_dialog_ok">Go!</string>
+    <string name="firebase_url">https://shining-torch-306.firebaseio.com/onceupon/</string>
 
 </resources>
 

@@ -1,5 +1,6 @@
 package com.atl.layouts;
 
+import android.support.annotation.RawRes;
 import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
 import android.support.v7.app.ActionBar;
@@ -23,9 +24,17 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.atl.layouts.util.RawResourceUtil;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.GenericTypeIndicator;
+import com.firebase.client.ValueEventListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.Map;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -63,7 +72,9 @@ public class NavigationDrawerFragment extends Fragment {
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
 
-    public JSONObject frag_storyData;
+    public boolean loaded = false;
+    public boolean refreshRejected = false;
+
 
     public NavigationDrawerFragment() {
     }
@@ -71,9 +82,9 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        JSONObject frag_storyData = new JSONObject();
         try {
-            frag_storyData = new JSONObject(RawResourceUtil.loadRawResource(this.getActivity(), R.raw.stories));
+            frag_storyData = loadStoryData(true);
         }
         catch(Exception e){
             System.out.println("failed to initialize json, " + e);
@@ -95,11 +106,45 @@ public class NavigationDrawerFragment extends Fragment {
         selectItem(mCurrentSelectedPosition);
     }
 
+    private JSONObject mainStoryData(){
+        return ((MainActivity)getActivity()).allStoryData;
+    }
+
+    private JSONObject loadStoryData(boolean useFirebase) throws JSONException, IOException{
+        if(useFirebase){
+            Firebase ref = new Firebase(getString(R.string.firebase_url));
+            ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    ((MainActivity)getActivity()).allStoryData = new JSONObject((Map<String, Object>)snapshot.getValue());
+                    refreshNavigationDrawer(mainStoryData());
+                    if(!loaded){
+                        loaded = true;
+                    }
+                    System.out.println("Retrieved data is " + mainStoryData());
+                }
+
+                @Override
+                public void onCancelled(FirebaseError error) {
+                    System.out.println("Firebase read failed " + error.getMessage());
+                }
+            });
+            return new JSONObject(RawResourceUtil.loadRawResource(this.getActivity(), R.raw.placeholder));
+        }
+        else{
+            loaded = true;
+            return new JSONObject(RawResourceUtil.loadRawResource(this.getActivity(), R.raw.stories));
+        }
+    }
+
+    public void refreshNavigationDrawer(JSONObject frag_storydata){
+
+    }
 
     public String[] getStoryTitles() throws JSONException{
-        String titles[] = new String[frag_storyData.getJSONArray("stories").length()];
+        String titles[] = new String[mainStoryData().getJSONArray("stories").length()];
         for(int i = 0; i < titles.length; i++){
-            titles[i] = frag_storyData.getJSONArray("stories").getJSONObject(i).getString("title");
+            titles[i] = mainStoryData().getJSONArray("stories").getJSONObject(i).getString("title");
         }
         return titles;
     }

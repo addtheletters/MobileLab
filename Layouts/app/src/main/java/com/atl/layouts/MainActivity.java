@@ -20,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.atl.layouts.util.RawResourceUtil;
+import com.firebase.client.Firebase;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,12 +29,17 @@ import java.net.URI;
 
 
 public class MainActivity extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks, StoryViewerFragment.OnFragmentInteractionListener {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks, StoryViewerFragment.OnFragmentInteractionListener, PageSelectDialogFragment.PageSelectDialogListener {
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
     private NavigationDrawerFragment mNavigationDrawerFragment;
+
+    /**
+     * Fragment showing the stories.
+     */
+    private StoryViewerFragment viewerFragment;
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
@@ -48,10 +54,13 @@ public class MainActivity extends ActionBarActivity
 
         System.out.println("oncreate called");
 
+        Firebase.setAndroidContext(this);
+
         setContentView(R.layout.activity_main);
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
+
 
         //allStoryData = mNavigationDrawerFragment.frag_storyData; // fragment loads it
 
@@ -88,8 +97,11 @@ public class MainActivity extends ActionBarActivity
             System.out.println("Failed to get json for story at " + position + "... " + e);
             story = new JSONObject();
         }
+
+        viewerFragment = StoryViewerFragment.newInstance(story, position);
+
         fragmentManager.beginTransaction()
-                .replace(R.id.container, StoryViewerFragment.newInstance(story, position))
+                .replace(R.id.container, viewerFragment)
                 .commit();
     }
 
@@ -153,4 +165,13 @@ public class MainActivity extends ActionBarActivity
     }
 
 
+    @Override
+    public void onPageSelected(int page) {
+        viewerFragment.changePageTo(page);
+    }
+
+    @Override
+    public boolean validatePage(int page) {
+        return viewerFragment.pageNumberValid(page);
+    }
 }
