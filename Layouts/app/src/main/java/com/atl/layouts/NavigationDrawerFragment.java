@@ -72,8 +72,6 @@ public class NavigationDrawerFragment extends Fragment {
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
 
-    public boolean loaded = false;
-    public boolean refreshRejected = false;
 
 
     public NavigationDrawerFragment() {
@@ -82,16 +80,6 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        JSONObject frag_storyData = new JSONObject();
-        try {
-            frag_storyData = loadStoryData(true);
-        }
-        catch(Exception e){
-            System.out.println("failed to initialize json, " + e);
-        }
-
-        ((MainActivity)getActivity()).allStoryData = frag_storyData;
-
         // Read in the flag indicating whether or not the user has demonstrated awareness of the
         // drawer. See PREF_USER_LEARNED_DRAWER for details.
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -108,37 +96,6 @@ public class NavigationDrawerFragment extends Fragment {
 
     private JSONObject mainStoryData(){
         return ((MainActivity)getActivity()).allStoryData;
-    }
-
-    private JSONObject loadStoryData(boolean useFirebase) throws JSONException, IOException{
-        if(useFirebase){
-            Firebase ref = new Firebase(getString(R.string.firebase_url));
-            ref.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot snapshot) {
-                    ((MainActivity)getActivity()).allStoryData = new JSONObject((Map<String, Object>)snapshot.getValue());
-                    refreshNavigationDrawer(mainStoryData());
-                    if(!loaded){
-                        loaded = true;
-                    }
-                    System.out.println("Retrieved data is " + mainStoryData());
-                }
-
-                @Override
-                public void onCancelled(FirebaseError error) {
-                    System.out.println("Firebase read failed " + error.getMessage());
-                }
-            });
-            return new JSONObject(RawResourceUtil.loadRawResource(this.getActivity(), R.raw.placeholder));
-        }
-        else{
-            loaded = true;
-            return new JSONObject(RawResourceUtil.loadRawResource(this.getActivity(), R.raw.stories));
-        }
-    }
-
-    public void refreshNavigationDrawer(JSONObject frag_storydata){
-
     }
 
     public String[] getStoryTitles() throws JSONException{

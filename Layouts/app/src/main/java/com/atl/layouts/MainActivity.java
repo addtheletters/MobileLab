@@ -20,12 +20,17 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.atl.layouts.util.RawResourceUtil;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.net.URI;
+import java.util.Map;
 
 
 public class MainActivity extends ActionBarActivity
@@ -48,11 +53,22 @@ public class MainActivity extends ActionBarActivity
 
     public JSONObject allStoryData;
 
+
+    public boolean loaded = false;
+    public boolean refreshRejected = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         System.out.println("oncreate called");
+
+        try {
+            allStoryData = loadStoryJSON();
+        }
+        catch(Exception e){
+            System.out.println("failed to initialize json, " + e);
+        }
 
         Firebase.setAndroidContext(this);
 
@@ -105,6 +121,11 @@ public class MainActivity extends ActionBarActivity
                 .commit();
     }
 
+    public void refreshNavDrawer(){
+        // replace existing nav drawer with new one based on changes to allStoryData
+        
+    }
+
     public void onSectionAttached(int number) {
         try{
             mTitle = getStoryJSON(number).getString("title");
@@ -120,6 +141,44 @@ public class MainActivity extends ActionBarActivity
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setTitle(mTitle);
+    }
+
+    private JSONObject loadStoryJSON() {
+        JSONObject ret = new JSONObject();
+        try {
+            ret = new JSONObject(RawResourceUtil.loadRawResource(this, R.raw.stories));
+
+        } catch (Exception e) {
+            System.out.println("Load failed. " + e);
+        }
+        return ret;
+    }
+
+    private JSONObject loadStoryData(boolean useFirebase) throws JSONException, IOException{
+        if(useFirebase){
+            Firebase ref = new Firebase(getString(R.string.firebase_url));
+            ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    allStoryData = new JSONObject((Map<String, Object>)snapshot.getValue());
+                    //refreshNavigationDrawer(mainStoryData());
+                    if(!loaded){
+                        loaded = true;
+                    }
+                    System.out.println("Retrieved data is " + allStoryData);
+                }
+
+                @Override
+                public void onCancelled(FirebaseError error) {
+                    System.out.println("Firebase read failed " + error.getMessage());
+                }
+            });
+            return new JSONObject(RawResourceUtil.loadRawResource(this, R.raw.placeholder));
+        }
+        else{
+            loaded = true;
+            return new JSONObject(RawResourceUtil.loadRawResource(this, R.raw.stories));
+        }
     }
 
     public JSONObject getStoryJSON(int section) throws JSONException{
@@ -163,7 +222,6 @@ public class MainActivity extends ActionBarActivity
     public void onFragmentInteraction(Uri uri){
         return;
     }
-
 
     @Override
     public void onPageSelected(int page) {
