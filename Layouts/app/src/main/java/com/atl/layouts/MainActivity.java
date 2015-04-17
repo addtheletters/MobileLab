@@ -123,7 +123,9 @@ public class MainActivity extends ActionBarActivity
 
     public void refreshNavDrawer(){
         // replace existing nav drawer with new one based on changes to allStoryData
-        
+        NavigationDrawerFragment replacementDrawer = new NavigationDrawerFragment();
+        Bundle args = new Bundle();
+
     }
 
     public void onSectionAttached(int number) {

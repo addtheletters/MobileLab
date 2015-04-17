@@ -54,6 +54,8 @@ public class NavigationDrawerFragment extends Fragment {
      */
     private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
 
+    private static final String ALL_STORY_INFO = "allStoryInfo";
+
     /**
      * A pointer to the current callbacks instance (the Activity).
      */
@@ -72,14 +74,32 @@ public class NavigationDrawerFragment extends Fragment {
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
 
-
+    private JSONObject navStoryInfo;
 
     public NavigationDrawerFragment() {
+    }
+
+    public static NavigationDrawerFragment newInstance(JSONObject allStoryInfo){
+        NavigationDrawerFragment fragment = new NavigationDrawerFragment();
+        Bundle args = new Bundle();
+        args.putString(ALL_STORY_INFO, allStoryInfo.toString());
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        try {
+            navStoryInfo = new JSONObject(getArguments().getString(ALL_STORY_INFO));
+        }
+        catch(JSONException e){
+            System.out.println("nav drawer failed to build jsonobject from argument story data, " + e);
+        }
+
+
+
         // Read in the flag indicating whether or not the user has demonstrated awareness of the
         // drawer. See PREF_USER_LEARNED_DRAWER for details.
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -94,14 +114,10 @@ public class NavigationDrawerFragment extends Fragment {
         selectItem(mCurrentSelectedPosition);
     }
 
-    private JSONObject mainStoryData(){
-        return ((MainActivity)getActivity()).allStoryData;
-    }
-
     public String[] getStoryTitles() throws JSONException{
-        String titles[] = new String[mainStoryData().getJSONArray("stories").length()];
+        String titles[] = new String[navStoryInfo.getJSONArray("stories").length()];
         for(int i = 0; i < titles.length; i++){
-            titles[i] = mainStoryData().getJSONArray("stories").getJSONObject(i).getString("title");
+            titles[i] = navStoryInfo.getJSONArray("stories").getJSONObject(i).getString("title");
         }
         return titles;
     }
