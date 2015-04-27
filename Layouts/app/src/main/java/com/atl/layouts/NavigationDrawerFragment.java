@@ -74,6 +74,8 @@ public class NavigationDrawerFragment extends Fragment {
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
 
+    private boolean isSetUp;
+
     private JSONObject navStoryInfo;
 
     public NavigationDrawerFragment() {
@@ -92,9 +94,15 @@ public class NavigationDrawerFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         try {
-            navStoryInfo = new JSONObject(getArguments().getString(ALL_STORY_INFO));
+            if(getArguments() == null){
+                System.out.print("failure");
+                navStoryInfo = new JSONObject(RawResourceUtil.loadRawResource(getActivity(), R.raw.placeholder));
+            }
+            else {
+                navStoryInfo = new JSONObject(getArguments().getString(ALL_STORY_INFO));
+            }
         }
-        catch(JSONException e){
+        catch(Exception e){
             System.out.println("nav drawer failed to build jsonobject from argument story data, " + e);
         }
 
@@ -165,7 +173,16 @@ public class NavigationDrawerFragment extends Fragment {
      * @param fragmentId   The android:id of this fragment in its activity's layout.
      * @param drawerLayout The DrawerLayout containing this fragment's UI.
      */
-    public void setUp(int fragmentId, DrawerLayout drawerLayout) {
+    public void setUp(int fragmentId, DrawerLayout drawerLayout, Activity possible) {
+        isSetUp = true;
+        boolean usePossible = true;
+        if(possible == null){
+            usePossible = false;
+        }
+
+        System.out.println("is activity null? " + getActivity() == null);
+        System.out.println("WHAT IS THIS");
+
         mFragmentContainerView = getActivity().findViewById(fragmentId);
         mDrawerLayout = drawerLayout;
 
@@ -180,7 +197,7 @@ public class NavigationDrawerFragment extends Fragment {
         // ActionBarDrawerToggle ties together the the proper interactions
         // between the navigation drawer and the action bar app icon.
         mDrawerToggle = new ActionBarDrawerToggle(
-                getActivity(),                    /* host Activity */
+                (usePossible) ? possible : getActivity() ,                    /* host Activity */
                 mDrawerLayout,                    /* DrawerLayout object */
                 R.drawable.ic_drawer,             /* nav drawer image to replace 'Up' caret */
                 R.string.navigation_drawer_open,  /* "open drawer" description for accessibility */
@@ -249,6 +266,10 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        if(!isSetUp){
+            //this.setUp(this.getId(), (DrawerLayout)activity.findViewById(R.id.drawer_layout), activity);
+        }
+
         try {
             mCallbacks = (NavigationDrawerCallbacks) activity;
         } catch (ClassCastException e) {

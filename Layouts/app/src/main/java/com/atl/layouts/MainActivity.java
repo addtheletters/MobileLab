@@ -1,6 +1,7 @@
 package com.atl.layouts;
 
 import android.app.Activity;
+import android.app.FragmentTransaction;
 import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -64,7 +65,7 @@ public class MainActivity extends ActionBarActivity
         System.out.println("oncreate called");
 
         try {
-            allStoryData = loadStoryJSON();
+            allStoryData = loadStoryData(false);
         }
         catch(Exception e){
             System.out.println("failed to initialize json, " + e);
@@ -77,16 +78,16 @@ public class MainActivity extends ActionBarActivity
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
 
-
         //allStoryData = mNavigationDrawerFragment.frag_storyData; // fragment loads it
 
         mTitle = getTitle();
 
-        // Set up the drawer.
-        mNavigationDrawerFragment.setUp(
-                R.id.navigation_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout));
 
+        // Set up the drawer.
+        /*NavigationDrawerFragment.setUp(
+                R.id.navigation_drawer,
+                (DrawerLayout) findViewById(R.id.drawer_layout), this);
+*/
 
         System.out.println("allStoryData is " + allStoryData);
 
@@ -123,9 +124,18 @@ public class MainActivity extends ActionBarActivity
 
     public void refreshNavDrawer(){
         // replace existing nav drawer with new one based on changes to allStoryData
-        NavigationDrawerFragment replacementDrawer = new NavigationDrawerFragment();
-        Bundle args = new Bundle();
+        NavigationDrawerFragment newNav = NavigationDrawerFragment.newInstance(allStoryData);
+        android.support.v4.app.FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
+        trans.replace(R.id.navigation_drawer, newNav);
+        trans.addToBackStack(null);
+        trans.commit();
 
+        // Set up the drawer.
+        newNav.setUp(
+                newNav.getId(),
+                (DrawerLayout) findViewById(R.id.drawer_layout), this);
+
+        mNavigationDrawerFragment = newNav;
     }
 
     public void onSectionAttached(int number) {
@@ -163,7 +173,7 @@ public class MainActivity extends ActionBarActivity
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
                     allStoryData = new JSONObject((Map<String, Object>)snapshot.getValue());
-                    //refreshNavigationDrawer(mainStoryData());
+                    refreshNavDrawer();
                     if(!loaded){
                         loaded = true;
                     }
