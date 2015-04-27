@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">GoodResult</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="hello_world">THIS IS A GOOD RESULT</string>
     <string name="action_settings">Settings</string>
 
 </resources>
