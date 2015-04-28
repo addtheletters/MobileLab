@@ -21,7 +21,7 @@ public class RemoteData {
         System.out.println("URL: "+url);
         HttpURLConnection hcon = null;
         try {
-            hcon=(HttpURLConnection)new URL(url).openConnection();
+            hcon = (HttpURLConnection)new URL(url).openConnection();
             hcon.setReadTimeout(TIMEOUT); // Timeout at 30 seconds
             hcon.setRequestProperty("User-Agent", "GoodResult_1");
         } catch (MalformedURLException e) {
@@ -36,17 +36,30 @@ public class RemoteData {
 
     // takes what's at a url and returns as string
     public static String readContents(String url){
-        HttpURLConnection hcon=getConnection(url);
-        if(hcon==null) return null;
+        byte[] cacheread = Cacher.read(url);
+        String cached = null;
+        if(cacheread != null) {
+            cached = new String(cacheread);
+            cacheread = null;
+        }
+        if(cached!=null) {
+            Log.d("MSG","Using cache for "+url);
+            return cached;
+        }
+
+        HttpURLConnection hcon = getConnection(url);
+        if(hcon == null){
+            return null;
+        }
         try{
-            StringBuffer sb=new StringBuffer(8192);
-            String tmp="";
-            BufferedReader br=new BufferedReader(
+            StringBuffer sb = new StringBuffer(8192);
+            String tmp = "";
+            BufferedReader br = new BufferedReader(
                     new InputStreamReader(
                             hcon.getInputStream()
                     )
             );
-            while((tmp=br.readLine())!=null)
+            while( (tmp = br.readLine()) != null)
                 sb.append(tmp).append("\n");
             br.close();
             return sb.toString();
