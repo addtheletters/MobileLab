@@ -1,12 +1,13 @@
 package com.atl.goodresult;
 
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements PickSubredditDialogFragment.PickSubredditDialogListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,11 @@ public class MainActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        if(id == R.id.pick_subreddit){
+            DialogFragment pick_sr_dialog = new PickSubredditDialogFragment();
+            pick_sr_dialog.show(this.getSupportFragmentManager(), "PickSubredditDialogFragment");
+        }
+
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
@@ -40,8 +46,21 @@ public class MainActivity extends ActionBarActivity {
     void addFragment(String subreddit){
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.fragments_holder
-                        , PostsFragment.newInstance(subreddit))
+                .add(R.id.fragments_holder,
+                        PostsFragment.newInstance(subreddit))
                 .commit();
+    }
+
+    void swapFragment(String subreddit){
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragments_holder,
+                        PostsFragment.newInstance(subreddit))
+                .commit();
+    }
+
+    @Override
+    public void onSubredditSelected(String subreddit) {
+        swapFragment(subreddit);
     }
 }

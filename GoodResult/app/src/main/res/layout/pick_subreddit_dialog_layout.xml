@@ -1,0 +1,15 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:gravity="center" tools:context="com.atl.layouts.PickSubredditDialogFragment">
+
+    <EditText
+        android:id="@+id/pick_subreddit_edittext"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:inputType="text"
+        android:textColor="@color/whitetext"
+        android:gravity="center"/>
+
+</FrameLayout>

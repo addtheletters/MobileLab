@@ -16,7 +16,7 @@ public class RemoteData {
 
     private static final int TIMEOUT = 30000;
 
-    // returns a connection to the url given
+    // returns a connection to the url givenx
     public static HttpURLConnection getConnection(String url){
         System.out.println("URL: "+url);
         HttpURLConnection hcon = null;
@@ -62,6 +62,9 @@ public class RemoteData {
             while( (tmp = br.readLine()) != null)
                 sb.append(tmp).append("\n");
             br.close();
+
+            Cacher.write(url, sb.toString());
+
             return sb.toString();
         }catch(IOException e){
             Log.d("READ FAILED", e.toString());
