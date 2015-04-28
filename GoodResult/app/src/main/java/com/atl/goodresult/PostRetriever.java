@@ -58,7 +58,21 @@ public class PostRetriever {
                 p.permalink     = cur.optString("permalink");
                 p.domain        = cur.optString("domain");
                 p.id            = cur.optString("id");
-                if( p.title != null )
+
+                p.thumbnail     = cur.optString("thumbnail");
+                p.upVotes       = cur.optInt("ups");
+                p.downVotes     = cur.optInt("downs");
+
+                p.is_self       = cur.optBoolean("is_self");
+                if(p.is_self){
+                    p.post_contents = cur.optString("selftext");
+                }
+                else{
+                    p.post_contents = p.url;
+                    //p.post_contents = cur.optString("media");
+                }
+
+                if( p.title != null && p.isNSFW() == false )
                     list.add(p);
             }
         }catch(Exception e){

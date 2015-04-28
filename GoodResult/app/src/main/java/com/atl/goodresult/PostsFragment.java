@@ -57,23 +57,12 @@ public class PostsFragment extends Fragment {ListView postsList;
     }
 
     private void initialize(){
-        // This should run only once for the fragment as the
-        // setRetainInstance(true) method has been called on
-        // this fragment
-
         if(posts.size()==0){
-
-            // Must execute network tasks outside the UI
-            // thread. So create a new thread.
-
+            // thread for network stuff
             new Thread(){
                 public void run(){
                     posts.addAll(postRetriever.fetchPosts());
-
-                    // UI elements should be accessed only in
-                    // the primary thread, so we must use the
-                    // handler here.
-
+                    // adapter to work with UI
                     handler.post(new Runnable(){
                         public void run(){
                             createAdapter();
@@ -86,14 +75,9 @@ public class PostsFragment extends Fragment {ListView postsList;
         }
     }
 
-    /**
-     * This method creates the adapter from the list of posts
-     * , and assigns it to the list.
-     */
     private void createAdapter(){
-
-        // Make sure this fragment is still a part of the activity.
-        if(getActivity()==null) return;
+        // if we're no longer on the activity thats bad
+        if( getActivity() == null ) return;
 
         adapter=new ArrayAdapter<Post>(getActivity()
                 ,R.layout.post_item

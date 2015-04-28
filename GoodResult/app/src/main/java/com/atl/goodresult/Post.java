@@ -9,9 +9,17 @@ public class Post {
     String title;
     String author;
     int points;
+    int upVotes;
+    int downVotes;
     int numComments;
     String permalink;
     String url;
+
+    String thumbnail;
+
+    boolean is_self;
+    String post_contents;
+
     String domain;
     String id;
 
@@ -31,5 +39,9 @@ public class Post {
 
     String getScore(){
         return Integer.toString(points);
+    }
+
+    boolean isNSFW(){
+        return thumbnail.equals("nsfw");
     }
 }

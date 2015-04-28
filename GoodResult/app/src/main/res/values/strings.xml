@@ -4,6 +4,7 @@
     <string name="app_name">GoodResult</string>
     <string name="hello_world">THIS IS A GOOD RESULT</string>
     <string name="action_settings">Settings</string>
+    <string name="pick_subreddit">Pick subreddit</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
