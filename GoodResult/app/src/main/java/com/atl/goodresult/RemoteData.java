@@ -23,7 +23,7 @@ public class RemoteData {
         try {
             hcon=(HttpURLConnection)new URL(url).openConnection();
             hcon.setReadTimeout(TIMEOUT); // Timeout at 30 seconds
-            hcon.setRequestProperty("User-Agent", "Alien V1.0");
+            hcon.setRequestProperty("User-Agent", "GoodResult_1");
         } catch (MalformedURLException e) {
             Log.e("getConnection()",
                     "Invalid URL: "+e.toString());

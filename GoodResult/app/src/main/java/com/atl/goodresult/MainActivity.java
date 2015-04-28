@@ -12,6 +12,7 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        addFragment("neutralpolitics");
     }
 
 
@@ -35,5 +36,13 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    void addFragment(String subreddit){
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.fragments_holder
+                        , PostsFragment.newInstance(subreddit))
+                .commit();
     }
 }

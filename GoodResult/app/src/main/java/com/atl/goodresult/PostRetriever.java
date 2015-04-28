@@ -45,6 +45,9 @@ public class PostRetriever {
 
             for(int i = 0; i < children.length(); i++){
                 JSONObject cur = children.getJSONObject(i).getJSONObject("data");
+                System.out.println("JSON THING:---------");
+                System.out.println(cur.toString(4));
+                System.out.println("--------END JSON");
                 Post p = new Post();
                 p.title = cur.optString("title");
                 p.url   = cur.optString("url");
