@@ -35,6 +35,10 @@ public class MainActivity extends ActionBarActivity implements PickSubredditDial
             pick_sr_dialog.show(this.getSupportFragmentManager(), "PickSubredditDialogFragment");
         }
 
+        if(id == R.id.pass_judgement){
+            System.out.println("judge or be judged");
+        }
+
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;

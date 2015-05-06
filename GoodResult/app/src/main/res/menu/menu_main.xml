@@ -5,6 +5,9 @@
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
     <item android:id="@+id/pick_subreddit" android:title="@string/pick_subreddit"
-        android:orderInCategory="1" app:showAsAction="never" />-->
+        android:orderInCategory="1" app:showAsAction="never" android:icon="@android:drawable/ic_menu_set_as" />-->
+    <item android:id="@+id/pass_judgement" android:title="@string/pass_judgement"
+        android:orderInCategory="2" app:showAsAction="ifRoom" android:icon="@android:drawable/ic_menu_myplaces"/>-->
+
 
 </menu>

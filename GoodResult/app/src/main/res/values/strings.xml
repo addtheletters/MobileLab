@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">GoodResult</string>
+    <string name="app_name">Judgement</string>
     <string name="hello_world">THIS IS A GOOD RESULT</string>
     <string name="action_settings">Settings</string>
     <string name="pick_subreddit">Pick subreddit</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="pass_judgement">Pass judgement</string>
+    <string name="hello_blank_fragment">I\'M REALLY FEELING IT</string>
 
 </resources>
