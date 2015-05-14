@@ -7,5 +7,6 @@
     <string name="pick_subreddit">Pick subreddit</string>
     <string name="pass_judgement">Pass judgement</string>
     <string name="hello_blank_fragment">I\'M REALLY FEELING IT</string>
+    <string name="no_content">No content here!</string>
 
 </resources>

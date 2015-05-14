@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 
@@ -20,6 +21,10 @@ public class PostsFragment extends Fragment {ListView postsList;
     String subreddit;
     List<Post> posts;
     PostRetriever postRetriever;
+
+    ProgressBar spinner;
+
+    TextView noContentLabel;
 
     public PostsFragment(){
         handler=new Handler();
@@ -40,7 +45,12 @@ public class PostsFragment extends Fragment {ListView postsList;
         View v=inflater.inflate(R.layout.fragment_posts
                 , container
                 , false);
-        postsList=(ListView)v.findViewById(R.id.posts_list);
+        postsList   = (ListView)v.findViewById(R.id.posts_list);
+        spinner     = (ProgressBar)v.findViewById(R.id.posts_load_progress);
+        spinner.setVisibility(View.VISIBLE);
+        noContentLabel = (TextView)v.findViewById(R.id.no_content_label);
+        noContentLabel.setEnabled(false);
+        noContentLabel.setVisibility(View.GONE);
         return v;
     }
 
@@ -79,39 +89,46 @@ public class PostsFragment extends Fragment {ListView postsList;
         // if we're no longer on the activity thats bad
         if( getActivity() == null ) return;
 
-        adapter=new ArrayAdapter<Post>(getActivity()
-                ,R.layout.post_item
-                , posts){
-            @Override
-            public View getView(int position,
-                                View convertView,
-                                ViewGroup parent) {
+        spinner.setVisibility(View.GONE);
+        if(posts.size() == 0){
+            noContentLabel.setVisibility(View.VISIBLE);
+        }
+        else {
+            adapter = new ArrayAdapter<Post>(getActivity()
+                    , R.layout.post_item
+                    , posts) {
+                @Override
+                public View getView(int position,
+                                    View convertView,
+                                    ViewGroup parent) {
 
-                if(convertView==null){
-                    convertView=getActivity()
-                            .getLayoutInflater()
-                            .inflate(R.layout.post_item, null);
+                    if (convertView == null) {
+                        convertView = getActivity()
+                                .getLayoutInflater()
+                                .inflate(R.layout.post_item, null);
+                    }
+
+                    TextView postTitle;
+                    postTitle = (TextView) convertView
+                            .findViewById(R.id.post_title);
+
+                    TextView postDetails;
+                    postDetails = (TextView) convertView
+                            .findViewById(R.id.post_details);
+
+                    TextView postScore;
+                    postScore = (TextView) convertView
+                            .findViewById(R.id.post_score);
+
+                    postTitle.setText(posts.get(position).title);
+                    postDetails.setText(posts.get(position).getDetails());
+                    postScore.setText(posts.get(position).getScore());
+                    return convertView;
                 }
-
-                TextView postTitle;
-                postTitle=(TextView)convertView
-                        .findViewById(R.id.post_title);
-
-                TextView postDetails;
-                postDetails=(TextView)convertView
-                        .findViewById(R.id.post_details);
-
-                TextView postScore;
-                postScore=(TextView)convertView
-                        .findViewById(R.id.post_score);
-
-                postTitle.setText(posts.get(position).title);
-                postDetails.setText(posts.get(position).getDetails());
-                postScore.setText(posts.get(position).getScore());
-                return convertView;
-            }
-        };
+            };
+        }
         postsList.setAdapter(adapter);
+        System.out.println("Loaded views for subreddit " + subreddit);
     }
 
 }
