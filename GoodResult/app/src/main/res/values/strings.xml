@@ -8,5 +8,7 @@
     <string name="pass_judgement">Pass judgement</string>
     <string name="hello_blank_fragment">I\'M REALLY FEELING IT</string>
     <string name="no_content">No content here!</string>
+    <string name="permalink_prefix">https://www.reddit.com</string>
+    <string name="link_open_failure">Failed to find a method to open link.</string>
 
 </resources>

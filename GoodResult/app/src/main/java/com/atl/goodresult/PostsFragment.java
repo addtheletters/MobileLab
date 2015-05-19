@@ -2,6 +2,10 @@ package com.atl.goodresult;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -12,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class PostsFragment extends Fragment {ListView postsList;
@@ -98,7 +103,7 @@ public class PostsFragment extends Fragment {ListView postsList;
                     , R.layout.post_item
                     , posts) {
                 @Override
-                public View getView(int position,
+                public View getView(final int position,
                                     View convertView,
                                     ViewGroup parent) {
 
@@ -123,12 +128,27 @@ public class PostsFragment extends Fragment {ListView postsList;
                     postTitle.setText(posts.get(position).title);
                     postDetails.setText(posts.get(position).getDetails());
                     postScore.setText(posts.get(position).getScore());
+
+                    convertView.setOnClickListener( new View.OnClickListener() {
+                        int pos = position;
+                        @Override
+                        public void onClick(View v) {
+                            try {
+                                final Intent intent = new Intent(Intent.ACTION_VIEW).setData(Uri.parse(getString(R.string.permalink_prefix) + posts.get(pos).permalink));
+                                startActivity(intent);
+                            }
+                            catch(ActivityNotFoundException e){
+                                Toast.makeText(getActivity().getApplicationContext(), getString(R.string.link_open_failure) + " " + posts.get(pos).permalink, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+
                     return convertView;
                 }
             };
         }
         postsList.setAdapter(adapter);
-        System.out.println("Loaded views for subreddit " + subreddit);
+       // System.out.println("Loaded views for subreddit " + subreddit);
     }
 
 }

@@ -9,11 +9,15 @@ import android.view.MenuItem;
 
 public class MainActivity extends ActionBarActivity implements PickSubredditDialogFragment.PickSubredditDialogListener{
 
+    private String current_subreddit = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        addFragment("neutralpolitics");
+        if(savedInstanceState == null) {
+            addFragment(current_subreddit);
+        }
     }
 
     @Override
@@ -37,6 +41,8 @@ public class MainActivity extends ActionBarActivity implements PickSubredditDial
 
         if(id == R.id.pass_judgement){
             System.out.println("judge or be judged");
+
+
         }
 
         //noinspection SimplifiableIfStatement
@@ -48,6 +54,7 @@ public class MainActivity extends ActionBarActivity implements PickSubredditDial
     }
 
     void addFragment(String subreddit){
+        System.out.println("attempted to add fragment " + subreddit);
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.fragments_holder,
@@ -56,15 +63,19 @@ public class MainActivity extends ActionBarActivity implements PickSubredditDial
     }
 
     void swapFragment(String subreddit){
+        System.out.println("attempted to swap fragment " + subreddit);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragments_holder,
                         PostsFragment.newInstance(subreddit))
+                //.addToBackStack(null)
                 .commit();
     }
 
     @Override
     public void onSubredditSelected(String subreddit) {
+        current_subreddit = subreddit;
+        System.out.println("SWAP TO " + subreddit);
         swapFragment(subreddit);
     }
 }
