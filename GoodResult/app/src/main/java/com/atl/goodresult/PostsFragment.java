@@ -19,7 +19,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-public class PostsFragment extends Fragment {ListView postsList;
+public class PostsFragment extends Fragment {
+
+    ListView postsList;
     ArrayAdapter<Post> adapter;
     Handler handler;
 

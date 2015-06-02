@@ -23,6 +23,7 @@ public class MainActivity extends ActionBarActivity implements PickSubredditDial
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
@@ -41,7 +42,6 @@ public class MainActivity extends ActionBarActivity implements PickSubredditDial
 
         if(id == R.id.pass_judgement){
             System.out.println("judge or be judged");
-
 
         }
 
@@ -63,13 +63,20 @@ public class MainActivity extends ActionBarActivity implements PickSubredditDial
     }
 
     void swapFragment(String subreddit){
+        //getActionBar().setTitle(subreddit);
+        //getSupportActionBar().setTitle(subreddit);
         System.out.println("attempted to swap fragment " + subreddit);
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragments_holder,
                         PostsFragment.newInstance(subreddit))
-                //.addToBackStack(null)
+                .addToBackStack(null)
                 .commit();
+    }
+
+    void updateActionBarTitle(){
+        // TODO
+        // based on current_subreddit
     }
 
     @Override
