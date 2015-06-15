@@ -16,3 +16,6 @@ Thumbs.db
 /build
 .idea/vcs.xml
 *.iml
+.idea/gradle.xml
+app/app.iml
+Nonpermanence.iml
